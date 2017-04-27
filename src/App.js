@@ -25,7 +25,7 @@ class App extends Component {
                                 </li>
 
                                 <li className="navbar-header">
-                                    <Link to={`/newpost`}>
+                                    <Link to={`/favourite`}>
                                         My favourite
                                     </Link>
                                 </li>

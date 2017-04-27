@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, {Component} from 'react';
 import FirebaseAPI from './../../services/firebase';
-
+import LoadingComponent from './LoadingComponent'
 class Article extends Component {
 
     constructor(props){
@@ -31,7 +31,7 @@ class Article extends Component {
 
         if (isLoading){
             return(
-                <span>Is Loading</span>
+                <LoadingComponent/>
             )
         }
 

@@ -1,6 +1,8 @@
 /* eslint-disable */
 import React, {Component} from 'react';
 import Article from './../../component/Article'
+import LoadingComponent from './LoadingComponent';
+
 import FirebaseAPI from './../../services/firebase'
 
 class Home extends Component {
@@ -29,14 +31,11 @@ class Home extends Component {
 
     render() {
         let {data,isLoading} = this.state;
-        if (isLoading){
-            return(
-                <span>Is Loading</span>
-            )
-        }
+
         return (
             <div style= {{flexGrow:1}}>
                 {data.map((item,index)=><Article key ={index} article={item}/>)}
+                {isLoading?<LoadingComponent/>:<div/>}
             </div>
         );
     }

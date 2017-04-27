@@ -14,49 +14,4 @@ const Routes = (props) => (
     </Router>
 )
 
-
-export const Data = [
-    {
-        title:'abc1',
-        id: 1
-    },
-    {
-        title:'xyz2',
-        id: 2
-    },
-    {
-        title:'abc3',
-        id: 3
-    },
-    {
-        title:'xyz4',
-        id: 4
-    },
-    {
-        title:'abc5',
-        id: 5
-    },
-    {
-        title:'xy6',
-        id: 6
-    },
-    {
-        title:'abc7',
-        id: 7
-    },
-    {
-        title:'xyz8',
-        id: 8
-    },
-    {
-        title:'abc9',
-        id: 9
-    },
-    {
-        title:'xyz10',
-        id: 10
-    }
-
-]
-
 export default Routes;

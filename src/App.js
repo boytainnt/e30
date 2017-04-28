@@ -1,35 +1,32 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router'
-import {Navbar, NavItem, FormGroup, FormControl, Nav} from 'react-bootstrap';
+import {connect} from 'react-redux';
+import * as firebase from 'firebase';
+
+import {NavigationBar} from './component/component'
+import {Actions} from './reducers/auth';
 
 class App extends Component {
+
+    componentDidMount() {
+        //listening to auth change
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                console.log('auth')
+                this.props.loginSuccess({
+                    token: user.refreshToken,
+                    user: user
+                });
+            } else {
+                console.log('no auth')
+                this.props.logout();
+            }
+        });
+    }
+
     render() {
         return (
             <div>
-                <Navbar>
-                    <Navbar.Header>
-                        <Navbar.Brand>
-                            <a href="#">e30</a>
-                        </Navbar.Brand>
-                    </Navbar.Header>
-                    <Nav>
-                        <NavItem eventKey={1} href="#">
-                            <Link to={`/newpost`}>
-                                Post new article
-                            </Link>
-                        </NavItem>
-                        <NavItem eventKey={2} href="#">
-                            <Link to={`/favourite`}>
-                                My favourite
-                            </Link>
-                        </NavItem>
-                    </Nav>
-                    <Navbar.Form pullRight>
-                        <FormGroup>
-                            <FormControl type="text" placeholder="Search" />
-                        </FormGroup>
-                    </Navbar.Form>
-                </Navbar>
+              <NavigationBar/>
                 <div className="container">
                     {this.props.children}
                 </div>
@@ -38,4 +35,14 @@ class App extends Component {
     }
 }
 
-export default App;
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        login: () => dispatch(Actions.login()),
+        loginSuccess: (data) => dispatch(Actions.loginSuccess(data)),
+        loginFail: (error) => dispatch(Actions.loginFail(error)),
+        logout: () => dispatch(Actions.logout()),
+    }
+}
+
+export default connect(undefined,mapDispatchToProps)(App);

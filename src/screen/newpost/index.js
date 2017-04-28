@@ -1,20 +1,59 @@
 /* eslint-disable */
 import React, {Component} from 'react';
-import Article from './../../component/Article'
+import {FormGroup, FormControl, ControlLabel, Button, Modal} from 'react-bootstrap'
+import {connect} from 'react-redux';
 import FirebaseAPI from './../../services/firebase'
-import {FormGroup, FormControl, ControlLabel, Button} from 'react-bootstrap'
+
+//for modal show
+const ModalConstant = {
+    loginAlert: {
+        header: 'Alert',
+        content: 'You must to login!!!'
+    },
+    postSuccess:{
+        header: 'Success',
+        content: 'Create new article successfully'
+    },
+    postFail:{
+        header: 'Alert',
+        content: 'Enter title and content of your post!!!'
+    }
+}
+
+
 class NewPost extends Component {
 
     constructor(props) {
         super(props);
         this.handleKeyPress = this.handleKeyPress.bind(this);
         this.state = {
-            isPosting: false
+            isPosting: false,
+            postFailAlert: false,
+            postSuccessAlert:false,
+            loginAlert:false,
         }
     }
 
     handleKeyPress = () => {
+
+        //checkin:
         if (this.state.isPosting) return;
+
+        if (this.title.value.length === 0 || this.content.value.length ===0){
+            this.setState({
+                postFailAlert:true
+            })
+            return;
+        }
+
+        if (!this.props.isLogin){
+            this.setState({
+                loginAlert:true
+            })
+            return;
+        }
+
+        //post:
         console.log('press')
         console.log(this.title.value)
         this.setState({
@@ -22,9 +61,44 @@ class NewPost extends Component {
         },()=> {
             FirebaseAPI.writeNewPost(this.title.value, this.content.value)
             this.setState({
-                isPosting:false
+                isPosting:false,
+                postSuccessAlert:true
             })
         });
+    }
+
+    renderModal(){
+
+        let  modalConst = this.state.postSuccessAlert
+                            ?   Modal.postSuccess
+                            :   this.state.postFailAlert
+                                    ? ModalConstant.postFail
+                                    : ModalConstant.loginAlert;
+
+        return(
+            <Modal show={this.state.loginAlert || this.state.postSuccessAlert || this.state.postFailAlert}>
+                <Modal.Header>
+                    <Modal.Title>{modalConst.header}</Modal.Title>
+                </Modal.Header>
+
+                <Modal.Body>
+                    {modalConst.content}
+                </Modal.Body>
+
+                <Modal.Footer>
+                    <Button onClick={()=>{
+                        this.setState({
+                            postSuccessAlert:false,
+                            postFailAlert:false,
+                            loginAlert:false
+                        })
+                    }}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+
+            </Modal>
+        )
     }
 
     render() {
@@ -46,12 +120,19 @@ class NewPost extends Component {
                         placeholder="Content"
                         inputRef={ref => { this.content = ref; }}/>
                 </FormGroup>
-                {this.state.isPosting?<div>Posting...</div>:<div/>}
                 <Button onClick={this.handleKeyPress}>Submit</Button>
+                {this.renderModal()}
             </div>
         );
     }
 }
 
-export default NewPost;
+const mapStateToProps = (state) => {
+    console.log(state.auth.token != undefined)
+    return {
+        isLogin: state.auth.token != undefined
+    }
+}
+
+export default connect(mapStateToProps)(NewPost);
 

@@ -13,7 +13,8 @@ firebase.initializeApp(config);
 var database = firebase.database();
 
 const Functions = {
-    Articles : 'articles'
+    Articles : 'articles',
+    Users: 'users'
 }
 
 const FirebaseAPI = {};
@@ -58,20 +59,58 @@ FirebaseAPI.getArticleById = async(id) => {
 //create new article
 FirebaseAPI.writeNewPost = (title, content) => {
 
-    // Get a key for a new Article.
-    var newPostKey = database.ref(Functions.Articles).push().key;
+    try {
+        // Get a key for a new Article.
+        var newPostKey = database.ref(Functions.Articles).push().key;
 
-    // A post entry.
-    var postData = {
-        title : title,
-        description: content,
-        id : newPostKey
-    };
-    // Write the new post's data simultaneously in the posts list and the user's post list.
-    var updates = {};
-    updates[newPostKey] = postData;
+        // A post entry.
+        var postData = {
+            title: title,
+            description: content,
+            id: newPostKey
+        };
+        // Write the new post's data simultaneously in the posts list and the user's post list.
+        var updates = {};
+        updates[newPostKey] = postData;
 
-    return firebase.database().ref(Functions.Articles).update(updates);
+        firebase.database().ref(Functions.Articles).update(updates);
+        return({
+            success:true
+        })
+    }
+    catch(error){
+        console.log(error);
+        return({
+            success: false,
+            error: error
+        })
+    }
+}
+
+FirebaseAPI.addFavorite = (userid, articleid) => {
+
+    try {
+        // Get a key for a new Article.
+        var newPostKey = database.ref(Functions.Users + '/' + userid).push().key;
+
+        // A post entry.
+        var postData = true;
+        // Write the new post's data simultaneously in the posts list and the user's post list.
+        var updates = {};
+        updates[articleid] = postData;
+
+        firebase.database().ref(Functions.Users + '/' + userid).update(updates);
+        return({
+            success:true
+        })
+    }
+    catch(error){
+        console.log(error);
+        return({
+            success: false,
+            error: error
+        })
+    }
 }
 
 export default FirebaseAPI;

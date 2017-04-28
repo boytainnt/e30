@@ -5,37 +5,54 @@ import LoadingComponent from './LoadingComponent';
 
 import FirebaseAPI from './../../services/firebase'
 
+const numberArticle  = 2;
 class Home extends Component {
 
     constructor(props){
         super(props);
         this.state ={
-            data : []
+            data : [],
+            lastKey : undefined,
+            isFinished : false
         }
     }
 
-    componentDidMount(){
-        console.log('fetch')
-
+    fetchData(){
+        if (this.state.isFinished) return;
         this.setState({
             isLoading:true
         },async()=> {
-            let data = await FirebaseAPI.getArticles(0, 8);
+            let data = await FirebaseAPI.getArticles(this.state.lastKey, numberArticle);
+
+            //join
+            let tempList = [...this.state.data];
+            tempList = tempList.concat(...data)
+            //get last key:
+            let lastKey = tempList[tempList.length-1].id;
+
             this.setState({
-                data: data || [],
-                isLoading:false
-            })
+                data: tempList,
+                isLoading:false,
+                lastKey: lastKey,
+                isFinished: data.length < numberArticle
+            }, ()=>this.fetchData())
             console.log('fetch done')
         });
     }
 
+    componentDidMount(){
+        console.log('fetch')
+        this.fetchData()
+    }
+
     render() {
-        let {data,isLoading} = this.state;
+        let {data,isLoading,isFinished} = this.state;
 
         return (
             <div style= {{flexGrow:1}}>
                 {data.map((item,index)=><Article key ={index} article={item}/>)}
                 {isLoading?<LoadingComponent/>:<div/>}
+                {isFinished?<div>End</div>:<div/>}
             </div>
         );
     }

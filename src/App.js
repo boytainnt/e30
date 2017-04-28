@@ -1,40 +1,35 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router'
+import {Navbar, NavItem, FormGroup, FormControl, Nav} from 'react-bootstrap';
 
 class App extends Component {
-    render(){
-        return(
+    render() {
+        return (
             <div>
-
-                <nav className="navbar navbar-default">
-                    <div className="container-fluid">
-                        <div className="navbar-header">
-                            <Link to={`/`}>
-                                <label className="navbar-brand">
-                                    e30
-                                </label>
+                <Navbar>
+                    <Navbar.Header>
+                        <Navbar.Brand>
+                            <a href="#">e30</a>
+                        </Navbar.Brand>
+                    </Navbar.Header>
+                    <Nav>
+                        <NavItem eventKey={1} href="#">
+                            <Link to={`/newpost`}>
+                                Post new article
                             </Link>
-                        </div>
-                        <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                            <ul className="nav navbar-nav">
-
-                                <li className="navbar-header">
-                                    <Link to={`/newpost`}>
-                                        Post new article
-                                    </Link>
-                                </li>
-
-                                <li className="navbar-header">
-                                    <Link to={`/favourite`}>
-                                        My favourite
-                                    </Link>
-                                </li>
-
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-
+                        </NavItem>
+                        <NavItem eventKey={2} href="#">
+                            <Link to={`/favourite`}>
+                                My favourite
+                            </Link>
+                        </NavItem>
+                    </Nav>
+                    <Navbar.Form pullRight>
+                        <FormGroup>
+                            <FormControl type="text" placeholder="Search" />
+                        </FormGroup>
+                    </Navbar.Form>
+                </Navbar>
                 <div className="container">
                     {this.props.children}
                 </div>

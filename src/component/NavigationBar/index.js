@@ -49,7 +49,7 @@ class NavigationBar extends Component {
 
                     <Navbar.Form pullLeft>
                         <FormGroup>
-                            <FormControl type="text" placeholder="Search"/>
+                            <FormControl type="text" placeholder="Search" />
                         </FormGroup>
                         {' '}
                     </Navbar.Form>
@@ -98,7 +98,7 @@ class NavigationBar extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        isLogin: state.auth.token != undefined,
+        isLogin: state.auth.isLogin,
         user: state.auth.user
     }
 }

@@ -8,8 +8,8 @@ import FirebaseAPI from './../../services/firebase'
 const numberArticle  = 2;
 class Home extends Component {
 
-    constructor(props){
-        super(props);
+    constructor(){
+        super();
         this.state ={
             data : [],
             lastKey : undefined,
@@ -36,12 +36,11 @@ class Home extends Component {
                 lastKey: lastKey,
                 isFinished: data.length < numberArticle
             }, ()=>this.fetchData())
-            console.log('fetch done')
         });
     }
 
     componentDidMount(){
-        console.log('fetch')
+        console.log('home fetch')
         this.fetchData()
     }
 

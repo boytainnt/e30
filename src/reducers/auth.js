@@ -35,6 +35,7 @@ export const Actions = {
 
 const initState = {
     token: undefined,
+    isLogin: undefined,
     isLoading : false,
     user: {},
     error: undefined,
@@ -55,7 +56,8 @@ export default function Auth(state = initState, action = {}) {
                 isLoading: false,
                 token: data.token,
                 user: data.user,
-                error: undefined
+                error: undefined,
+                isLogin: true
             });
 
         case ActionsType.USER_LOGIN_FAIL:
@@ -63,12 +65,14 @@ export default function Auth(state = initState, action = {}) {
                 ...state,
                 isLoading: false,
                 token: undefined,
-                error : action.error
+                error : action.error,
+                isLogin: false
             });
 
         case ActionsType.USER_LOGOUT:
             return({
-                ...initState
+                ...initState,
+                isLogin:false
             });
 
 

@@ -103,6 +103,8 @@ class NewPost extends Component {
 
     render() {
 
+        let {isPosting} = this.state;
+
         return (
             <div style={{flexGrow: 1}}>
                 <h1>Post new article here</h1>
@@ -120,7 +122,11 @@ class NewPost extends Component {
                         placeholder="Content"
                         inputRef={ref => { this.content = ref; }}/>
                 </FormGroup>
-                <Button onClick={this.handleKeyPress}>Submit</Button>
+                <Button
+                    disabled={isPosting}
+                    onClick={this.handleKeyPress}>
+                    {isPosting?'Posting...':'Submit'}
+                </Button>
                 {this.renderModal()}
             </div>
         );
@@ -129,7 +135,7 @@ class NewPost extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        isLogin: state.auth.token != undefined
+        isLogin: state.auth.isLogin
     }
 }
 

@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router'
 import {connect} from 'react-redux';
-import {Button} from 'react-bootstrap';
+import {Button,Glyphicon} from 'react-bootstrap';
 import FirebaseAPI from './../../services/firebase';
 
 class Article extends Component {
@@ -13,7 +13,34 @@ class Article extends Component {
     }
 
     addToFavorite() {
-        FirebaseAPI.addFavorite(this.props.uid, this.props.article.id)
+        let {article} = this.props;
+        FirebaseAPI.addFavorite(this.props.uid, article)
+    }
+
+    //not show favourite button when not login
+    //show 'add to favourite' if isFavourite = false
+    //show 'favourited' if isFavourite = true
+    renderFavourite(){
+
+        if (!this.props.isLogin){
+            return (<span/>)
+        }
+
+        //not implement yet in home
+        if (this.props.isFavourite){
+            return(
+                <Button>
+                    Favourited
+                </Button>)
+        }
+
+        return(
+            <Button onClick={this.addToFavorite}>
+                <Glyphicon glyph="star" />
+                 Favourite
+            </Button>
+        )
+
     }
 
     render() {
@@ -26,11 +53,7 @@ class Article extends Component {
                     </label>
                 </Link>
                 <div>
-                    {this.props.isLogin
-                        ? <Button onClick={this.addToFavorite}>
-                            Add to Favorite
-                        </Button>
-                        : <span/>}
+                    {this.renderFavourite()}
                 </div>
                 <hr/>
             </div>
@@ -39,10 +62,14 @@ class Article extends Component {
 
 }
 
+Article.defaultProps = {
+    isFavourite: false
+};
+
 const mapStateToProps = (state) => {
     return {
         uid: state.auth.user.uid,
-        isLogin: state.auth.token != undefined
+        isLogin: state.auth.isLogin
     }
 }
 

@@ -113,6 +113,32 @@ FirebaseAPI.addFavorite = (userid, articleid) => {
     }
 }
 
+FirebaseAPI.getFavorite = (userid, articleid) => {
+
+    try {
+        // Get a key for a new Article.
+        var newPostKey = database.ref(Functions.Users + '/' + userid).push().key;
+
+        // A post entry.
+        var postData = true;
+        // Write the new post's data simultaneously in the posts list and the user's post list.
+        var updates = {};
+        updates[articleid] = postData;
+
+        firebase.database().ref(Functions.Users + '/' + userid).update(updates);
+        return({
+            success:true
+        })
+    }
+    catch(error){
+        console.log(error);
+        return({
+            success: false,
+            error: error
+        })
+    }
+}
+
 export default FirebaseAPI;
 
 

@@ -128,7 +128,6 @@ class NewPost extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state.auth.token != undefined)
     return {
         isLogin: state.auth.token != undefined
     }

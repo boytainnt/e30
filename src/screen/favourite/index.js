@@ -21,7 +21,7 @@ class Favourite extends Component {
     }
 
     componentWillReceiveProps(nextProps){
-        console.log(nextProps)
+        //console.log(nextProps)
         if (nextProps.isLogin != this.props.isLogin){
             console.log('new props')
             this.refreshData();

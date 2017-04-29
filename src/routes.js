@@ -2,7 +2,7 @@ import React from 'react';
 import { Router, Route } from 'react-router';
 
 import App from './App';
-import {Home, NewPost, Article, Favourite} from  './screen/screen'
+import {Home, NewPost, Article, Favourite, Search} from  './screen/screen'
 
 const Routes = (props) => (
     <Router {...props}>
@@ -11,6 +11,7 @@ const Routes = (props) => (
             <Route path="/article/:id" component={Article}/>
             <Route path="/newpost" component={NewPost}/>
             <Route path="/favourite" component={Favourite}/>
+            <Route path="/search/:searchText" component={Search}/>
         </Route>
     </Router>
 )

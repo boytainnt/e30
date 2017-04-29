@@ -99,7 +99,7 @@ FirebaseAPI.addFavorite = (userid, article) => {
             date: new Date(),
             title: article.title
         }
-        // Write the new post's data simultaneously in the posts list and the user's post list.
+        // Write the new post's data simultaneously in the article list.
         var updates = {};
         updates[article.id] = postData;
 
@@ -117,13 +117,24 @@ FirebaseAPI.addFavorite = (userid, article) => {
     }
 }
 
+//get all user's favorite article
+//will improve late
 FirebaseAPI.getFavorite = async(userid) => {
-    // Get a key for a new Article.
     console.log(userid)
     let response = await database.ref(Functions.Users + '/' + userid).orderByChild('date').once('value');
     let articles = response.val();
     articles = Object.keys(articles).map((key)=>articles[key])
     console.log(articles)
+    return articles;
+}
+
+
+//search article by title: searchText*****
+//will improve late
+FirebaseAPI.searchArticles = async(searchText) => {
+    let response = await database.ref(Functions.Articles).orderByChild('title').startAt(searchText).once('value');
+    let articles = response.val();
+    articles = Object.keys(articles).map((key)=>articles[key])
     return articles;
 }
 

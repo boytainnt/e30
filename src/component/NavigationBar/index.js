@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, {Component} from 'react';
-import {Navbar, NavItem, FormGroup, FormControl, Nav, Button, Image} from 'react-bootstrap';
+import {Navbar, NavItem, FormGroup, FormControl, Nav, Button, InputGroup,Glyphicon} from 'react-bootstrap';
 import {Link} from 'react-router'
 import {connect} from 'react-redux';
 import * as firebase from 'firebase';
@@ -12,7 +12,12 @@ class NavigationBar extends Component {
     constructor() {
         super();
         this.auth = this.auth.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.state = {
+            searchText : ''
+        }
     }
+
 
     auth() {
         let {isLogin} = this.props;
@@ -32,8 +37,12 @@ class NavigationBar extends Component {
         }
     }
 
+    handleChange(e) {
+        console.log(e.target.value)
+        this.setState({ searchText: e.target.value });
+    }
+
     render() {
-        //console.log(this.props.user)
         return (
             <Navbar>
                 <Navbar.Header>
@@ -49,7 +58,18 @@ class NavigationBar extends Component {
 
                     <Navbar.Form pullLeft>
                         <FormGroup>
-                            <FormControl type="text" placeholder="Search" />
+                            <InputGroup>
+                                <FormControl
+                                    type="text"
+                                    placeholder="Search"
+                                    onChange={this.handleChange}
+                                />
+                            </InputGroup>
+                            <Button>
+                                <Link to={`/search/${this.state.searchText}`}>
+                                    <Glyphicon glyph="glyphicon glyphicon-search" />
+                                </Link>
+                            </Button>
                         </FormGroup>
                         {' '}
                     </Navbar.Form>

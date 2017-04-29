@@ -9,3 +9,7 @@ export const NewPost = _NewPost;
 
 import _Favourite from './favourite'
 export  const Favourite = _Favourite;
+
+
+import _Search from './search';
+export const  Search = _Search;

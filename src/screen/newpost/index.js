@@ -70,7 +70,7 @@ class NewPost extends Component {
     renderModal(){
 
         let  modalConst = this.state.postSuccessAlert
-                            ?   Modal.postSuccess
+                            ?   ModalConstant.postSuccess
                             :   this.state.postFailAlert
                                     ? ModalConstant.postFail
                                     : ModalConstant.loginAlert;

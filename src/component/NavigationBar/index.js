@@ -44,7 +44,10 @@ class NavigationBar extends Component {
 
     render() {
         return (
-            <Navbar>
+            <Navbar
+                staticTop
+                inverse
+            >
                 <Navbar.Header>
                     <Navbar.Brand>
                         <Link to={``}>

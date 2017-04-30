@@ -2,7 +2,6 @@
 import React, {Component} from 'react';
 import Article from './../../component/Article'
 import FirebaseAPI from './../../services/firebase';
-import LoadingComponent from './LoadingComponent';
 
 class Search extends Component {
 

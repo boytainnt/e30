@@ -7,14 +7,20 @@ import FirebaseAPI from './../../services/firebase';
 
 class Article extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.addToFavorite = this.addToFavorite.bind(this);
+        this.state = {
+            isFavourite : props.isFavourite ||false
+        }
     }
 
     addToFavorite() {
         let {article} = this.props;
         FirebaseAPI.addFavorite(this.props.uid, article)
+        this.setState({
+            isFavourite : true
+        })
     }
 
     //not show favourite button when not login
@@ -27,7 +33,7 @@ class Article extends Component {
         }
 
         //not implement yet in home
-        if (this.props.isFavourite){
+        if (this.state.isFavourite){
             return(
                 <Button>
                     Favourited

@@ -97,7 +97,8 @@ FirebaseAPI.addFavorite = (userid, article) => {
         // A post entry.
         var postData = {
             date: new Date(),
-            title: article.title
+            title: article.title,
+            id: article.id
         }
         // Write the new post's data simultaneously in the article list.
         var updates = {};
@@ -124,7 +125,6 @@ FirebaseAPI.getFavorite = async(userid) => {
     let response = await database.ref(Functions.Users + '/' + userid).orderByChild('date').once('value');
     let articles = response.val();
     articles = Object.keys(articles).map((key)=>articles[key])
-    console.log(articles)
     return articles;
 }
 

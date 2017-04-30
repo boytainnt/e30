@@ -1,4 +1,4 @@
-
+//not connect yet
 
 const ActionsType = {
     FETCH_ARTICLES : 'FETCH_ARTICLES',
